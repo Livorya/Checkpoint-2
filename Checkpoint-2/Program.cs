@@ -8,7 +8,7 @@ using Checkpoint_2;
 
 ProductList productList = new ProductList();
 
-bool quitEnterProductLoop = false;
+bool quitEnterProductLoop;
 
 
 //Main-method
@@ -22,7 +22,8 @@ MoreOptionsMenu();
 #region Enter a Product
 
 void EnterProduct()
-{
+{   //Method that loops and adds new products to list until user writes Q to exit and at the end prints the list
+    quitEnterProductLoop = false;
     while (true)  
     {
         Divider();
@@ -44,12 +45,12 @@ void EnterProduct()
         Console.ResetColor();
     }
     Divider();
-    productList.DisplayProductListPadded();
+    productList.DisplayProductList();
     Divider();
 }
 
 string EnterCategory() 
-{
+{   //Method that allows the user to enter a category and makes sure that it isn't empty and the returns the name
     while (true)  //return statements breaks the loop
     {
         Console.Write("Enter a Category: ");
@@ -61,7 +62,7 @@ string EnterCategory()
         }
         else if (category.Trim() != "")
         {
-            return Captalized(category);
+            return category;
         }
         else
         {
@@ -72,8 +73,8 @@ string EnterCategory()
     }
 }
 
-string EnterProductName() 
-{
+string EnterProductName()
+{   //Method that allows the user to enter a product name and makes sure that it isn't empty the returns the name
     while (true)  //return statements breaks the loop
     {
         Console.Write("Enter a Product Name: ");
@@ -85,7 +86,7 @@ string EnterProductName()
         }
         else if (productName.Trim() != "")
         {
-            return Captalized(productName);
+            return productName;
         }
         else
         {
@@ -97,7 +98,7 @@ string EnterProductName()
 }
 
 int EnterPrice()
-{
+{   //Method that allows the user to enter a price and makes sure that it is a number the returns the number
     while (true)  //return statements breaks the loop
     {
         Console.Write("Enter a Price: ");
@@ -124,7 +125,7 @@ int EnterPrice()
 #region More Options to ReEnter or Search
 
 void MoreOptionsMenu()
-{
+{   //Method that asks the user if they want to enter a new product, search for a product or exit the program
     while (true)
     {
         Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -136,7 +137,7 @@ void MoreOptionsMenu()
 
         if (input == "P")
         {
-            ReEnterProduct();
+            EnterProduct();
         }
         else if (input == "S")
         {
@@ -149,21 +150,15 @@ void MoreOptionsMenu()
     }
 }
 
-void ReEnterProduct()
-{
-    quitEnterProductLoop = false;
-    EnterProduct();
-}
-
 void SearchProduct()
-{
+{   //Method that allows the user to enter a product name to serach for and if found prints the list
     Console.Write("Enter a Product Name: ");
     string input = Console.ReadLine();
-    Product searchProduct = productList.SearchProductInList(Captalized(input));
+    Product searchProduct = productList.SearchProductInList(input);
     if (searchProduct != null)
     {
         Divider();
-        productList.DisplayProductListPadded(searchProduct);
+        productList.DisplayProductList(searchProduct);
         Divider();
     }
     else
@@ -176,7 +171,7 @@ void SearchProduct()
 #endregion
 
 bool EnterQuit(string input)
-{
+{   //Method that verifies if the user has entered a quit statemenrt and returns a bool
     string testInput = input.ToUpper().Trim();
     if (testInput == "Q" || testInput == "QUIT")
     {
@@ -188,18 +183,7 @@ bool EnterQuit(string input)
     }
 }
 
-string Captalized(string input)
-{
-    string trimmedInput = input.Trim();
-    if (string.IsNullOrEmpty(trimmedInput))
-    {
-        return "";
-    }
-    trimmedInput = char.ToUpper(trimmedInput[0]) + trimmedInput.Substring(1).ToLower();
-    return trimmedInput;
-}
-
 void Divider()
-{
+{   //Method that writes a dividing line in the console window
     Console.WriteLine("--------------------------------------------------");
 }

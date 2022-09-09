@@ -20,7 +20,7 @@ namespace Checkpoint_2
         }
 
         public void DisplayProductPadded(int padding)
-        {
+        {   //Method that prints the product information with padding
             Console.WriteLine(Category.PadRight(padding) + ProductName.PadRight(padding) + Price);
         }
     }
